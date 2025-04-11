@@ -3,30 +3,35 @@ const Task = require("./task");
 const createTask = async (newTask) => {
   try {
     const task = await Task.create(newTask);
-    console.log(task);
     return task;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 
 const getAllTasks = async () => {
   try {
     const tasks = await Task.find();
-    console.log(tasks);
     return tasks;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
-
+const getTaskById = async (id) => {
+  try {
+    const task = await Task.findById(id);
+    if (!task) throw new Error("Task not found");
+    else return task;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 const getTasksByPriority = async (priority) => {
   try {
     const tasks = await Task.find({ priority });
-    console.log(tasks);
     return tasks;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 
@@ -35,82 +40,84 @@ const getLowCompletedTasks = async () => {
     const tasks = await Task.find({ priority: "Low", isCompleted: true }).limit(
       5,
     );
-    console.log(tasks);
     return tasks;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 
 const getCompletedTasks = async () => {
   try {
     const tasks = await Task.find({ isCompleted: true });
-    console.log(tasks);
     return tasks;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error.message);
   }
 };
-
 const getOverdueTasks = async () => {
   try {
     const tasks = await Task.where("dueDate")
       .lt(new Date())
       .where("isCompleted")
       .equals(false);
-    console.log(tasks);
     return tasks;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 const getTaskByTitle = async (title) => {
   try {
     const task = await Task.findOne({ title });
-    console.log(task);
+
     return task;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
+  }
+};
+const getTasksByTitle = async (title) => {
+  try {
+    const task = await Task.where("title").regex(/urgent/i);
+    return task;
+  } catch (error) {
+    throw new Error(error);
   }
 };
 
 const getTasksByTag = async (tags) => {
   try {
     const task = await Task.find({ tags });
-    console.log(task);
     return task;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 
 const updateTaskById = async (id, t) => {
   try {
-    const task = await Task.findByIdAndUpdate(id, t);
-    console.log(task);
-    return task;
+    const task = await Task.findByIdAndUpdate(id, t, { new: true });
+    if (!task) return "Task not found";
+    else return task;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 
-const deleteTaskById = async (id) => {
+const deleteTaskById = async (_id) => {
   try {
-    const task = await Task.findOneAndDelete({ id });
+    const task = await Task.findOneAndDelete({ _id });
     console.log(task);
     return task;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 
 const getMediumPriorityNotCompletedTasks = async () => {
   try {
     const tasks = await Task.find({ priority: "Medium", isCompleted: false });
-    console.log(tasks);
     return tasks;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 
@@ -127,16 +134,16 @@ const getHighPriorityDueTodayTasks = async () => {
       .lte(tomorrow)
       .where("title")
       .regex(/urgent/i);
-    console.log(tasks);
     return tasks;
   } catch (error) {
-    console.error(error.messange);
+    throw new Error(error);
   }
 };
 module.exports = {
   createTask,
   deleteTaskById,
   getAllTasks,
+  getTaskById,
   getCompletedTasks,
   getHighPriorityDueTodayTasks,
   getLowCompletedTasks,
@@ -144,6 +151,7 @@ module.exports = {
   getOverdueTasks,
   getTasksByTag,
   getTaskByTitle,
+  getTasksByTitle,
   getTasksByPriority,
   updateTaskById,
 };

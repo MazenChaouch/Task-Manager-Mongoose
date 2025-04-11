@@ -1,14 +1,14 @@
-### 🧠 Problem Title: Build a Mongoose Task Manager with Full CRUD Functionality
+#### 🧠 Problem Title: Build a Mongoose Task Manager with Full CRUD Functionality
 
 ---
 
-### ✅ Objective:
+### ✅ Objective
 
 Develop a modular Task Manager application using **Mongoose** to handle tasks with complete CRUD (Create, Read, Update, Delete) operations and advanced schema features.
 
 ---
 
-### 📦 Task Schema Requirements:
+### 📦 Task Schema Requirements
 
 ```js
 Task {
@@ -24,7 +24,7 @@ Task {
 
 ---
 
-### 🔄 CRUD Operations:
+### 🔄 CRUD Operations
 
 - `createTask`: function that creates and saves a new task
 - `getAllTasks`: function that returns all tasks
@@ -41,7 +41,7 @@ Task {
 
 ---
 
-### 🧠 Advanced Mongoose Features (Optional):
+### 🧠 Advanced Mongoose Features (Optional)
 
 - `isOverdue` (virtual): returns true if `dueDate` is past and `isCompleted` is false
 - `getUrgentTasks` (static): returns tasks with priority `"High"` and `isCompleted: false`
@@ -106,7 +106,7 @@ Task {
 
 ### 🎯 Custom Filters
 
-- `GET /api/tasks/priority/High` — Tasks with priority = High
+- `GET /api/tasks/priority/high` — Tasks with priority = High
 - `GET /api/tasks/completed` — Tasks where isCompleted = true
 - `GET /api/tasks/overdue` — Tasks with past dueDate and not completed
 - `GET /api/tasks/tag/meeting` — Tasks containing the "meeting" tag
